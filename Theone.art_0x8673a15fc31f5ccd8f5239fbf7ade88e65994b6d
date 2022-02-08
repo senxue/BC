@@ -1,0 +1,479 @@
+#
+#  Panoramix v4 Oct 2019 
+#  Decompiled source of poly:0x8673A15fC31f5CCd8f5239FbF7AdE88E65994B6d
+# 
+#  Let's make the world open source 
+# 
+#
+#  I failed with these: 
+#  - safeTransferFrom(address _from, address _to, uint256 _tokenId)
+#  - safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes _data)
+#  - tokenURI(uint256 _tokenId)
+#  - _fallback()
+#  All the rest is below.
+#
+
+const signature = Array(len=36, data=0x7270726f7669646564206279205365616c2d5343202f207777772e7365616c73632e636f, memem
+
+def storage:
+  stor0 is mapping of uint8 at storage 0
+  tokenOfOwnerByIndex is array of uint256 at storage 1
+  tokenByIndex is array of struct at storage 2
+  stor3 is mapping of uint256 at storage 3
+  approved is mapping of addr at storage 4
+  stor5 is mapping of uint8 at storage 5
+  name is array of uint256 at storage 6
+  symbol is array of uint256 at storage 7
+  baseURI is array of uint256 at storage 9
+  owner is addr at storage 10
+  stor11 is mapping of uint8 at storage 11
+  stor12 is mapping of uint8 at storage 12
+  unknown069dab8f is array of struct at storage 13
+  stor14 is mapping of uint8 at storage 14
+
+def supportsInterface(bytes4 _interfaceId): # not payable
+  require calldata.size - 4 >= 32
+  return bool(stor0[Mask(32, 224, _interfaceId)])
+
+def unknown069dab8f(addr _param1): # not payable
+  return unknown069dab8f[_param1][0 len unknown069dab8f[_param1].length].field_0
+
+def name(): # not payable
+  return name[0 len name.length]
+
+def getApproved(uint256 _tokenId): # not payable
+  require calldata.size - 4 >= 32
+  if not stor3[_tokenId]:
+      revert with 0x8c379a000000000000000000000000000000000000000000000000000000000, 
+                  32,
+                  44,
+                  0x734552433732313a20617070726f76656420717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[208 len 20]
+  return approved[_tokenId]
+
+def isAdministrator(address _wallet): # not payable
+  require calldata.size - 4 >= 32
+  return bool(stor11[addr(_wallet)])
+
+def totalSupply(): # not payable
+  return tokenByIndex.length
+
+def unknown204c930d(uint256 _param1): # not payable
+  require calldata.size - 4 >= 32
+  return bool(stor14[_param1])
+
+def tokenOfOwnerByIndex(address _owner, uint256 _index): # not payable
+  require calldata.size - 4 >= 64
+  if _index >= tokenOfOwnerByIndex[addr(_owner)]:
+      revert with 0x8c379a000000000000000000000000000000000000000000000000000000000, 
+                  32,
+                  34,
+                  0xfe456e756d657261626c655365743a20696e646578206f7574206f6620626f756e64,
+                  mem[198 len 30]
+  return tokenOfOwnerByIndex[addr(_owner)][_index]
+
+def tokenByIndex(uint256 _index): # not payable
+  require calldata.size - 4 >= 32
+  if _index >= tokenByIndex.length:
+      revert with 0x8c379a000000000000000000000000000000000000000000000000000000000, 
+                  32,
+                  34,
+                  0x6e456e756d657261626c654d61703a20696e646578206f7574206f6620626f756e64,
+                  mem[198 len 30]
+  return tokenByIndex[_index].field_0
+
+def ownerOf(uint256 _tokenId): # not payable
+  require calldata.size - 4 >= 32
+  if not stor3[_tokenId]:
+      revert with 0, 
+                  32,
+                  41,
+                  0x734552433732313a206f776e657220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[169 len 23],
+                  mem[215 len 9]
+  require stor3[_tokenId] - 1 < tokenByIndex.length
+  return tokenByIndex[stor3[_tokenId] - 1].field_256
+
+def baseURI(): # not payable
+  return baseURI[0 len baseURI.length]
+
+def balanceOf(address _owner): # not payable
+  require calldata.size - 4 >= 32
+  if not _owner:
+      revert with 0x8c379a000000000000000000000000000000000000000000000000000000000, 
+                  32,
+                  42,
+                  0x6c4552433732313a2062616c616e636520717565727920666f7220746865207a65726f20616464726573,
+                  mem[206 len 22]
+  return tokenOfOwnerByIndex[addr(_owner)]
+
+def owner(): # not payable
+  return owner
+
+def symbol(): # not payable
+  return symbol[0 len symbol.length]
+
+def unknowndebfda30(addr _param1): # not payable
+  require calldata.size - 4 >= 32
+  return bool(stor12[addr(_param1)])
+
+def isApprovedForAll(address _owner, address _operator): # not payable
+  require calldata.size - 4 >= 64
+  return bool(stor5[addr(_owner)][addr(_operator)])
+
+#
+#  Regular functions
+#
+
+def renounceOwnership(): # not payable
+  if owner != caller:
+      revert with 0, 'nOwnable: caller is not the owne'
+  log OwnershipTransferred(
+        address previousOwner=owner,
+        address newOwner=0)
+  owner = 0
+
+def addAdministrator(address _wallet): # not payable
+  require calldata.size - 4 >= 32
+  if owner != caller:
+      revert with 0, 'nOwnable: caller is not the owne'
+  stor11[addr(_wallet)] = 1
+
+def unknown1f5a0bbe(addr _param1): # not payable
+  require calldata.size - 4 >= 32
+  if not stor11[caller]:
+      revert with 0, 'not administrator'
+  stor12[addr(_param1)] = 1
+
+def unknown24788429(addr _param1): # not payable
+  require calldata.size - 4 >= 32
+  if not stor11[caller]:
+      revert with 0, 'not administrator'
+  stor12[addr(_param1)] = 0
+
+def removeAdministrator(address _wallet): # not payable
+  require calldata.size - 4 >= 32
+  if owner != caller:
+      revert with 0, 'nOwnable: caller is not the owne'
+  stor11[addr(_wallet)] = 0
+
+def setApprovalForAll(address _to, bool _approved): # not payable
+  require calldata.size - 4 >= 64
+  if _to == caller:
+      revert with 0, 'ERC721: approve to caller'
+  stor5[caller][addr(_to)] = uint8(_approved)
+  log ApprovalForAll(
+        address owner=_approved,
+        address operator=caller,
+        bool approved=_to)
+
+def setBaseURI(string _baseURI): # not payable
+  require calldata.size - 4 >= 32
+  require _baseURI <= 4294967296
+  require _baseURI + 36 <= calldata.size
+  require _baseURI.length <= 4294967296 and _baseURI + _baseURI.length + 36 <= calldata.size
+  if not stor11[caller]:
+      revert with 0, 'not administrator'
+  baseURI[] = Array(len=_baseURI.length, data=_baseURI[all])
+
+def transferOwnership(address _newOwner): # not payable
+  require calldata.size - 4 >= 32
+  if owner != caller:
+      revert with 0, 'nOwnable: caller is not the owne'
+  if not _newOwner:
+      revert with 0x8c379a000000000000000000000000000000000000000000000000000000000, 
+                  32,
+                  38,
+                  0x724f776e61626c653a206e6577206f776e657220697320746865207a65726f20616464726573,
+                  mem[202 len 26]
+  log OwnershipTransferred(
+        address previousOwner=owner,
+        address newOwner=_newOwner)
+  owner = _newOwner
+
+def unknown978d5b76(addr _param1): # not payable
+  require calldata.size - 4 >= 32
+  if not stor11[caller]:
+      revert with 0, 'not administrator'
+  mem[128] = unknown069dab8f[addr(_param1)].field_0
+  idx = 128
+  s = 0
+  while unknown069dab8f[addr(_param1)].length + 96 > idx:
+      mem[idx + 32] = unknown069dab8f[addr(_param1)][s].field_256
+      idx = idx + 32
+      s = s + 1
+      continue 
+  if unknown069dab8f[addr(_param1)].length <= 0:
+      revert with 0, 'not registered'
+  log 0xb596f3f6: Array(len=unknown069dab8f[addr(_param1)].length, data=mem1)].length]), addr(_param1)
+  unknown069dab8f[addr(_param1)].field_0 = 0
+  unknown069dab8f[addr(_param1)].field_1 = 0
+  unknown069dab8f[addr(_param1)].field_8 = addr(_param1) << 88
+  idx = 0
+  while unknown069dab8f[addr(_param1)].length + 31 / 32 > idx:
+      unknown069dab8f[addr(_param1)][idx].field_0 = 0
+      idx = idx + 1
+      continue 
+
+def unknown5755b9bc(): # not payable
+  require calldata.size - 4 >= 64
+  require cd <= 4294967296
+  require cd <= calldata.size
+  require ('cd', 4).length <= 4294967296 and cd('cd', 4).length + 36 <= calldata.size
+  if not stor11[caller]:
+      revert with 0, 'not administrator'
+  idx = 128
+  s = 0
+  while unknown069dab8f[addr(cd)].length + 96 > idx:
+      mem[idx + 32] = unknown069dab8f[addr(cd)][s].field_256
+      idx = idx + 32
+      s = s + 1
+      continue 
+  if unknown069dab8f[addr(cd)].length != 0:
+      revert with 0, 'already registered'
+  unknown069dab8f[addr(cd)].field_0 = (2 * ('cd', 4).length) + 1
+  s = 0
+  idx = cd[4] + 36
+  while cd('cd', 4).length + 36 > idx:
+      unknown069dab8f[addr(cd)][s].field_0 = cd[idx]
+      s = s + 1
+      idx = idx + 32
+      continue 
+  idx = Mask(251, 0, ('cd', 4).length + 31) >> 5
+  while unknown069dab8f[addr(cd)].length + 31 / 32 > idx:
+      unknown069dab8f[addr(cd)][idx].field_0 = 0
+      idx = idx + 1
+      continue 
+  log 0x6287c935: Array(len=('cd', 4).length, data=call.data[cd
+
+def approve(address _spender, uint256 _value): # not payable
+  require calldata.size - 4 >= 64
+  if not stor3[_value]:
+      revert with 0, 
+                  32,
+                  41,
+                  0x734552433732313a206f776e657220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[169 len 23],
+                  mem[215 len 9]
+  require stor3[_value] - 1 < tokenByIndex.length
+  if _spender == tokenByIndex[stor3[_value] - 1].field_256:
+      revert with 0, 32, 33, 0x6e4552433732313a20617070726f76616c20746f2063757272656e74206f776e65, mem[293 len 31]
+  if tokenByIndex[stor3[_value] - 1].field_256 != caller:
+      if not stor5[stor2[stor3[_value] - 1].field_256][caller]:
+          revert with 0, 
+                      32,
+                      56,
+                      0x6e4552433732313a20617070726f76652063616c6c6572206973206e6f74206f776e6572206e6f7220617070726f76656420666f7220616c,
+                      mem[316 len 8]
+  approved[_value] = _spender
+  if not stor3[_value]:
+      revert with 0, 
+                  32,
+                  41,
+                  0x734552433732313a206f776e657220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[265 len 23],
+                  mem[311 len 9]
+  require stor3[_value] - 1 < tokenByIndex.length
+  log Approval(
+        address owner=tokenByIndex[stor3[_value] - 1].field_256,
+        address spender=_spender,
+        uint256 value=_value)
+
+def transferFrom(address _from, address _to, uint256 _value): # not payable
+  require calldata.size - 4 >= 96
+  if not stor3[_value]:
+      revert with 0x8c379a000000000000000000000000000000000000000000000000000000000, 
+                  32,
+                  44,
+                  0x734552433732313a206f70657261746f7220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[208 len 20]
+  if not stor3[_value]:
+      revert with 0, 
+                  32,
+                  41,
+                  0x734552433732313a206f776e657220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[169 len 23],
+                  mem[215 len 9]
+  require stor3[_value] - 1 < tokenByIndex.length
+  if tokenByIndex[stor3[_value] - 1].field_256 != caller:
+      if not stor3[_value]:
+          revert with 0, 32, 44, 0x734552433732313a20617070726f76656420717565727920666f72206e6f6e6578697374656e7420746f6b65, mem[304 len 20]
+      if approved[_value] != caller:
+          if not stor5[stor2[stor3[_value] - 1].field_256][caller]:
+              revert with 0, 
+                          32,
+                          49,
+                          0x724552433732313a207472616e736665722063616c6c6572206973206e6f74206f776e6572206e6f7220617070726f7665,
+                          mem[309 len 15]
+  if not stor3[_value]:
+      revert with 0, 
+                  32,
+                  41,
+                  0x734552433732313a206f776e657220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[265 len 23],
+                  mem[311 len 9]
+  require stor3[_value] - 1 < tokenByIndex.length
+  if tokenByIndex[stor3[_value] - 1].field_256 != _from:
+      revert with 0, 32, 41, 0x6d4552433732313a207472616e73666572206f6620746f6b656e2074686174206973206e6f74206f77, mem[397 len 23]
+  if not _to:
+      revert with 0, 32, 36, 0x734552433732313a207472616e7366657220746f20746865207a65726f20616464726573, mem[392 len 28]
+  approved[_value] = 0
+  if not stor3[_value]:
+      revert with 0, 
+                  32,
+                  41,
+                  0x734552433732313a206f776e657220717565727920666f72206e6f6e6578697374656e7420746f6b65,
+                  mem[361 len 23],
+                  mem[407 len 9]
+  require stor3[_value] - 1 < tokenByIndex.length
+  log Approval(
+        address owner=tokenByIndex[stor3[_value] - 1].field_256,
+        address spender=0,
+        uint256 value=_value)
+  if tokenOfOwnerByIndex[addr(_from)][1][_value]:
+      require tokenOfOwnerByIndex[addr(_from)] - 1 < tokenOfOwnerByIndex[addr(_from)]
+      require tokenOfOwnerByIndex[addr(_from)][1][_value] - 1 < tokenOfOwnerByIndex[addr(_from)]
+      tokenOfOwnerByIndex[addr(_from)][tokenOfOwnerByIndex[addr(_from)][1][_value]] = tokenOfOwnerByIndex[addr(_from)][tokenOfOwnerByIndex[addr(_from)]]
+      tokenOfOwnerByIndex[addr(_from)][1][tokenOfOwnerByIndex[addr(_from)][tokenOfOwnerByIndex[addr(_from)]]] = tokenOfOwnerByIndex[addr(_from)][1][_value]
+      require tokenOfOwnerByIndex[addr(_from)]
+      tokenOfOwnerByIndex[addr(_from)][tokenOfOwnerByIndex[addr(_from)]] = 0
+      tokenOfOwnerByIndex[addr(_from)]--
+      tokenOfOwnerByIndex[addr(_from)][1][_value] = 0
+  if not tokenOfOwnerByIndex[addr(_to)][1][_value]:
+      tokenOfOwnerByIndex[addr(_to)]++
+      tokenOfOwnerByIndex[addr(_to)][tokenOfOwnerByIndex[addr(_to)]] = _value
+      tokenOfOwnerByIndex[addr(_to)][1][_value] = tokenOfOwnerByIndex[addr(_to)]
+  if stor3[_value]:
+      require stor3[_value] - 1 < tokenByIndex.length
+      tokenByIndex[stor3[_value] - 1].field_256 = _to
+      tokenByIndex[stor3[_value] - 1].field_416 = 0
+  else:
+      tokenByIndex.length++
+      tokenByIndex[tokenByIndex.length].field_0 = _value
+      tokenByIndex[tokenByIndex.length].field_256 = _to
+      tokenByIndex[tokenByIndex.length].field_416 = 0
+      stor3[_value] = tokenByIndex.length
+  log Transfer(
+        address from=_from,
+        address to=_to,
+        uint256 value=_value)
+
+def unknownb41c69b1(array _param1, array _param2, uint256 _param3, addr _param4): # not payable
+  require calldata.size - 4 >= 128
+  require _param1 <= 4294967296
+  require _param1 + 36 <= calldata.size
+  require _param1.length <= 4294967296 and _param1 + _param1.length + 36 <= calldata.size
+  require _param2 <= 4294967296
+  require _param2 + 36 <= calldata.size
+  require _param2.length <= 4294967296 and _param2 + _param2.length + 36 <= calldata.size
+  if not stor12[caller]:
+      revert with 0, 'not executor'
+  mem[96] = _param1.length
+  mem[128 len _param1.length] = _param1[all]
+  mem[_param1.length + 128] = 0
+  mem[64] = ceil32(_param1.length) + ceil32(_param2.length) + 160
+  mem[ceil32(_param1.length) + 128] = _param2.length
+  mem[ceil32(_param1.length) + 160 len _param2.length] = _param2[all]
+  mem[ceil32(_param1.length) + _param2.length + 160] = 0
+  mem[0] = _param3
+  mem[32] = 14
+  if stor14[_param3]:
+      revert with 0, 'already created'
+  mem[ceil32(_param1.length) + ceil32(_param2.length) + 192] = addr(this.address)
+  mem[ceil32(_param1.length) + ceil32(_param2.length) + 212 len floor32(_param1.length)] = call.data[_param1 + 36 len floor32(_param1.length)]
+  mem[ceil32(_param1.length) + ceil32(_param2.length) + floor32(_param1.length) + 212] = 256^(-(_param1.length % 32) + 32) - 1 and mem[ceil32(_param1.length) + ceil32(_param2.length) + floor32(_param1.length) + 212] or call.data[_param1 + floor32(_param1.length) + 36 len _param1.length % 32], Mask(8 * -(_param1.length % 32) + 32, -(8 * -(_param1.length % 32) + 32) + 256, 0) << (8 * -(_param1.length % 32) + 32) - 256 and !(256^(-(_param1.length % 32) + 32) - 1)
+  _70 = Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)]
+  mem[ceil32(_param1.length) + ceil32(_param2.length) + _param1.length + 212 len floor32(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)])] = mem[ceil32(_param1.length) + 160 len floor32(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)])]
+  mem[ceil32(_param1.length) + ceil32(_param2.length) + _param1.length + floor32(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)]) + 212] = mem[ceil32(_param1.length) + floor32(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)]) + -(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)] % 32) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)] % 32] or Mask(8 * -(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)] % 32) + 32, -(8 * -(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)] % 32) + 32) + 256, mem[ceil32(_param1.length) + ceil32(_param2.length) + _param1.length + floor32(Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[_param1.length + 160 len -_param1.length + ceil32(_param1.length)]) + 212])
+  mem[_70 + ceil32(_param1.length) + ceil32(_param2.length) + _param1.length + 212] = 0
+  mem[_70 + ceil32(_param1.length) + ceil32(_param2.length) + _param1.length + 232] = _param3
+  mem[ceil32(_param1.length) + ceil32(_param2.length) + 160] = _70 + _param1.length + 72
+  _129 = sha3(mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]])
+  if not _param4:
+      revert with 0, 'ERC721: mint to the zero address'
+  if stor3[mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]]:
+      revert with 0, 'ERC721: token already minted'
+  if not tokenOfOwnerByIndex[addr(_param4)][1][sha3(mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]])]:
+      tokenOfOwnerByIndex[addr(_param4)]++
+      tokenOfOwnerByIndex[addr(_param4)][tokenOfOwnerByIndex[addr(_param4)]] = sha3(mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]])
+      tokenOfOwnerByIndex[addr(_param4)][1][sha3(mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]])] = tokenOfOwnerByIndex[addr(_param4)]
+  if stor3[mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]]:
+      require stor3[mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]] - 1 < tokenByIndex.length
+      tokenByIndex[stor3[mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]] - 1].field_256 = _param4
+      tokenByIndex[stor3[mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]] - 1].field_416 = 0
+  else:
+      tokenByIndex.length++
+      tokenByIndex[tokenByIndex.length].field_0 = sha3(mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]])
+      tokenByIndex[tokenByIndex.length].field_256 = _param4
+      tokenByIndex[tokenByIndex.length].field_416 = 0
+      stor3[mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]] = tokenByIndex.length
+  log Transfer(
+        address from=0,
+        address to=_param4,
+        uint256 value=sha3(mem[ceil32(_param1.length) + ceil32(_param2.length) + 192 len Mask(8 * -ceil32(_param2.length) + _param2.length + 32, 0, 0), mem[ceil32(_param1.length) + _param2.length + 192 len -_param2.length + ceil32(_param2.length)]]))
+  stor14[_param3] = 1
+  log 0x31e2a14d: caller, addr(_param4), Array(len=_param2.length, data=_param2[all]), _param3, _129
+  return _129
+
+def unknown020c7cf5(array _param1, array _param2, uint256 _param3): # not payable
+  require calldata.size - 4 >= 96
+  require _param1 <= 4294967296
+  require _param1 + 36 <= calldata.size
+  require _param1.length <= 4294967296 and _param1 + _param1.length + 36 <= calldata.size
+  require _param2 <= 4294967296
+  require _param2 + 36 <= calldata.size
+  require _param2.length <= 4294967296 and _param2 + _param2.length + 36 <= calldata.size
+  mem[96] = unknown069dab8f[caller].length
+  mem[128] = unknown069dab8f[caller].field_0
+  idx = 128
+  s = 0
+  while unknown069dab8f[caller].length + 96 > idx:
+      mem[idx + 32] = unknown069dab8f[caller][s].field_256
+      idx = idx + 32
+      s = s + 1
+      continue 
+  if unknown069dab8f[caller].length <= 0:
+      revert with 0, 'not registered artist'
+  mem[64] = ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 160
+  mem[ceil32(unknown069dab8f[caller].length) + 128] = _param1.length
+  mem[ceil32(unknown069dab8f[caller].length) + 160 len _param1.length] = _param1[all]
+  mem[ceil32(unknown069dab8f[caller].length) + _param1.length + 160] = 0
+  mem[0] = _param3
+  mem[32] = 14
+  if stor14[_param3]:
+      revert with 0, 'already created'
+  mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 192] = addr(this.address)
+  mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 212 len floor32(_param1.length)] = call.data[_param1 + 36 len floor32(_param1.length)]
+  mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + floor32(_param1.length) + 212] = 256^(-(_param1.length % 32) + 32) - 1 and mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + floor32(_param1.length) + 212] or call.data[_param1 + floor32(_param1.length) + 36 len _param1.length % 32], Mask(8 * -(_param1.length % 32) + 32, -(8 * -(_param1.length % 32) + 32) + 256, 0) << (8 * -(_param1.length % 32) + 32) - 256 and !(256^(-(_param1.length % 32) + 32) - 1)
+  mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + _param1.length + 212 len floor32(unknown069dab8f[caller].length)] = mem[128 len floor32(unknown069dab8f[caller].length)]
+  mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + _param1.length + floor32(unknown069dab8f[caller].length) + 212] = mem[floor32(unknown069dab8f[caller].length) + -unknown069dab8f[caller].length % 32 + 160 len unknown069dab8f[caller].length % 32] or Mask(8 * -unknown069dab8f[caller].length % 32 + 32, -(8 * -unknown069dab8f[caller].length % 32 + 32) + 256, mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + _param1.length + floor32(unknown069dab8f[caller].length) + 212])
+  mem[unknown069dab8f[caller].length + ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + _param1.length + 212] = caller
+  mem[unknown069dab8f[caller].length + ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + _param1.length + 232] = _param3
+  mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 160] = unknown069dab8f[caller].length + _param1.length + 72
+  _549 = sha3(mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(unknown069dab8f[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]])
+  if not caller:
+      revert with 0, 'ERC721: mint to the zero address'
+  if stor3[mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]]:
+      revert with 0, 'ERC721: token already minted'
+  if not tokenOfOwnerByIndex[caller][1][sha3(mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]])]:
+      tokenOfOwnerByIndex[caller]++
+      tokenOfOwnerByIndex[caller][tokenOfOwnerByIndex[caller]] = sha3(mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(unknown069dab8f[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]])
+      tokenOfOwnerByIndex[caller][1][sha3(mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]])] = tokenOfOwnerByIndex[caller]
+  if stor3[mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]]:
+      require stor3[mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]] - 1 < tokenByIndex.length
+      tokenByIndex[stor3[mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]] - 1].field_256 = caller
+      tokenByIndex[stor3[mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]] - 1].field_416 = 0
+  else:
+      tokenByIndex.length++
+      tokenByIndex[tokenByIndex.length].field_0 = sha3(mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(unknown069dab8f[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]])
+      tokenByIndex[tokenByIndex.length].field_256 = caller
+      tokenByIndex[tokenByIndex.length].field_416 = 0
+      stor3[mem[ceil32(stor13[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(stor13[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]] = tokenByIndex.length
+  log Transfer(
+        address from=0,
+        address to=caller,
+        uint256 value=sha3(mem[ceil32(unknown069dab8f[caller].length) + ceil32(_param1.length) + 192 len Mask(8 * -ceil32(_param1.length) + _param1.length + 32, 0, 0), mem[ceil32(unknown069dab8f[caller].length) + _param1.length + 192 len -_param1.length + ceil32(_param1.length)]]))
+  stor14[_param3] = 1
+  log 0x84b06ba7: caller, Array(len=_param2.length, data=_param2[all]), _param3, _549
+  return _549
+
